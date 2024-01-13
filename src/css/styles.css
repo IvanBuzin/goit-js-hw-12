@@ -210,3 +210,7 @@ span {
 .post-body {
   margin: 0;
 }
+
+.hide {
+  text-shadow: none;
+}

@@ -34,7 +34,7 @@ form.addEventListener('submit', async event => {
     console.log();
   }
 
-  buttonResults.addEventListener('click', async event => {
+  buttonResults.addEventListener('click',async () => {
     try {
       loader.classList.remove('hide');
       const images = await fetchImages();
@@ -43,7 +43,7 @@ form.addEventListener('submit', async event => {
       if (page > totalPages) {
         iziToast.error({
           position: 'topRight',
-          message: "We`re sorry, there are no more posts to load",
+          message: "We`re sorry, but you`ve reached the end of search results.",
         });
       }
 
