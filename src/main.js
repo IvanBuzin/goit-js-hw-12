@@ -42,7 +42,7 @@ form.addEventListener('submit', async event => {
       if (page > totalPages) {
         iziToast.error({
           position: 'topRight',
-          message: "We`re sorry, there are no more posts to load";
+          message: "We`re sorry, there are no more posts to load",
         });
       }
 
