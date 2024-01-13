@@ -108,3 +108,5 @@ async function renderImages(images) {
   modal.refresh();
   buttonResults.classList.remove('hide');
 }
+
+getBoundingClientRect();
