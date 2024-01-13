@@ -2,65 +2,86 @@ import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+import axios from 'axios';
 
 const form = document.querySelector('.form');
 const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
+const buttonResults = document.querySelector('.more-results');
 
 const modal = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
   captionDelay: 250,
 });
 
-form.addEventListener('submit', toRenderImages);
+const per_page = 40;
+let pege = 1;
+const totalPages = Math.ceil(500 / per_page);
+let userSearch = '';
 
-function toRenderImages(event) {
+form.addEventListener('submit', async event => {
   event.preventDefault();
-  gallery.innerHTML = '';
+  userSearch = form.search.value.trim();
 
-  const userSearch = form.search.value.trim();
+  try {
+    loader.classList.remove('hide');
+    const images = await fetchImages();
+    renderImages(images);
+  } catch (error) {
+    console.log(error.message);
+  } finally {
+    loader.classList.add('hide');
+    console.log();
+  }
 
-  const url = new URL('https://pixabay.com/api/');
-  url.searchParams.append('key', '41619692-6da96b2a0003032b895baebe3');
-  url.searchParams.append('q', userSearch);
-  url.searchParams.append('image_type', 'photo');
-  url.searchParams.append('orientation', 'horizontal');
-  url.searchParams.append('safesearch', true);
-
-  loader.classList.remove('hide');
-
-  fetch(url)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Your request is not ok!');
-      }
-      loader.classList.add('hide');
-      return response.json();
-    })
-    .then(images => {
-      if (images.hits.length === 0) {
+  buttonResults.addEventListener('click', async () => {
+    try {
+      loader.classList.remove('hide');
+      const images = await fetchImages();
+      renderImages(images);
+      if (page > totalPages) {
         iziToast.error({
-          title: 'Nothing found!',
-          message:
-            'Sorry, there are no images matching your search query. Please try again!',
+          position: 'topRight',
+          message: "We`re sorry, there are no more posts to load";
         });
       }
-      gallery.innerHTML = '';
-      gallery.innerHTML = images.hits.reduce(
-        (
-          html,
-          {
-            webformatURL,
-            largeImageURL,
-            tags,
-            likes,
-            views,
-            comments,
-            downloads,
-          }
-        ) =>
-          html +
-          `<li class='gallery-item'>
+
+      loader.classList.add('hide');
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      loader.classList.add('hide');
+      console.log();
+    }
+  });
+});
+
+async function fetchImages() {
+  page += 1;
+
+  const images = await axios.get('https://pixabay.com/api/', {
+    params: {
+      key: '41619692-6da96b2a0003032b895baebe3',
+      q: userSearch,
+      image_type: 'photo',
+      orientation: 'horizontal',
+      safesearch: true,
+      per_page: per_page,
+      page: page,
+    },
+  });
+  return images.data;
+}
+
+async function renderImages(images) {
+  const markup = images.hits.reduce((
+    html, {
+      webformatURL, largeImageURL, tags, likes, views, comments, downloads
+    }
+  ) => {
+    return (
+      html +
+      `<li class='gallery-item'>
               <a class='gallery-link' href='${largeImageURL}'>
                 <img
                     class='gallery-image'
@@ -77,61 +98,12 @@ function toRenderImages(event) {
                   <li><p class='statistic'>💌 Downloads<span>${downloads}</span></p></li>
               </ul>
             </li>`,
+    );
+  },
         ''
       );
 
-      modal.refresh();
-    })
-    .catch(error => console.log(error))
-    .finally(() => form.reset());
-}
-
-const fetchPostsBtn = document.querySelector(".btn");
-const postList = document.querySelector(".posts");
-
-// Controls the group number
-let page = 1;
-// Controls the number of items in the group
-let perPage = 10;
-
-fetchPostsBtn.addEventListener("click", async () => {
-  try {
-    const posts = await fetchPosts();
-    renderPosts(posts);
-    // Increase the group number
-    page += 1;
-
-    // Replace button text after first request
-    if (page > 1) {
-      fetchPostsBtn.textContent = "Fetch more posts";
-    }
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-async function fetchPosts() {
-  const params = new URLSearchParams({
-    _limit: perPage,
-    _page: page
-  });
-
-  const response = await axios.get(
-    `https://jsonplaceholder.typicode.com/posts?${params}`
-  );
-  return response.data;
-}
-
-function renderPosts(posts) {
-  const markup = posts
-    .map(({ id, title, body, userId }) => {
-      return `<li>
-          <h2 class="post-title">${title.slice(0, 30)}</h2>
-          <p><b>Post id</b>: ${id}</p>
-          <p><b>Author id</b>: ${userId}</p>
-          <p class="post-body">${body}</p>
-        </li>`;
-    })
-    .join("");
-  postList.insertAdjacentHTML("beforeend", markup);
+  gallery.insertAdjacentHTML('beforeend', markup);
+  modal.refresh();
+  buttonResults.classList.remove('hide');
 }
