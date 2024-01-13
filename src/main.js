@@ -49,7 +49,7 @@ form.addEventListener('submit', async event => {
 
       loader.classList.add('hide');
     } catch (error) {
-      console.log(error.message);
+      /*console.log(error.message);*/
     } finally {
       loader.classList.add('hide');
       console.log();
@@ -108,5 +108,3 @@ async function renderImages(images) {
   modal.refresh();
   buttonResults.classList.remove('hide');
 }
-
-getBoundingClientRect();
