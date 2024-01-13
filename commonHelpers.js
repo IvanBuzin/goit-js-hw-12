@@ -14,5 +14,5 @@ import{S as h,i as L,a as b}from"./assets/vendor-89feecc5.js";(function(){const 
                   <li><p class='statistic'>💬 Comments<span>${f}</span></p></li>
                   <li><p class='statistic'>💌 Downloads<span>${y}</span></p></li>
               </ul>
-            </li>`,"");v.insertAdjacentHTML("beforeend",t),w.refresh(),u.classList.remove("hide")}
+            </li>`,"");v.insertAdjacentHTML("beforeend",t),w.refresh(),u.classList.remove("hide")}getBoundingClientRect();
 //# sourceMappingURL=commonHelpers.js.map
