@@ -39,6 +39,7 @@ form.addEventListener('submit', async event => {
       loader.classList.remove('hide');
       const images = await fetchImages();
       renderImages(images);
+
       if (page > totalPages) {
         iziToast.error({
           position: 'topRight',
@@ -97,11 +98,11 @@ async function renderImages(images) {
                   <li><p class='statistic'>💬 Comments<span>${comments}</span></p></li>
                   <li><p class='statistic'>💌 Downloads<span>${downloads}</span></p></li>
               </ul>
-            </li>`,
+            </li>`
     );
   },
-        ''
-      );
+ ''
+ );
 
   gallery.insertAdjacentHTML('beforeend', markup);
   modal.refresh();
