@@ -34,7 +34,7 @@ form.addEventListener('submit', async event => {
     console.log();
   }
 
-  buttonResults.addEventListener('click', async () => {
+  buttonResults.addEventListener('click', async() => {
     try {
       loader.classList.remove('hide');
       const images = await fetchImages();
