@@ -26,7 +26,7 @@ async function toForm(event) {
   buttonResults.classList.add('hide')
   gallery.innerHTML = '';
   pege = 1;
-  userSearch = form.search.value.trin();
+  userSearch = form.search.value.trim();
 
   const images = await fetchImages();
 
