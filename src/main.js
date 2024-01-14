@@ -15,7 +15,7 @@ const modal = new SimpleLightbox('.gallery a', {
 });
 
 const per_page = 40;
-let pege = 1;
+let page = 1;
 let userSearch = '';
 
 form.addEventListener('submit', toForm);
@@ -25,7 +25,7 @@ async function toForm(event) {
   event.preventDefault();
   buttonResults.classList.add('hide')
   gallery.innerHTML = '';
-  pege = 1;
+  page = 1;
   userSearch = form.search.value.trim();
 
   const images = await fetchImages();
@@ -115,7 +115,7 @@ async function toButton() {
     gallery.insertAdjacentHTML('beforeend', markup);
     modal.refresh();
 
-    if (images.hits.length === 0 || pege >= Math.ceil(images.totalHits / per_page)) {
+    if (images.hits.length === 0 || page >= Math.ceil(images.totalHits / per_page)) {
       buttonResults.classList.add('hide');
     }
     else {
