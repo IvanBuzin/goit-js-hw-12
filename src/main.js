@@ -33,8 +33,8 @@ async function toForm(event) {
   if (images.hits.length === 0) {
     iziToast.error({
       position: 'topRight',
-      message: "We`re sorry, but you`ve reached the end of search results.",
-      backgroundColor: #fff,
+      message: 'Sorry, there are no images matching your search query. Please try again!',
+      backgroundColor: '#fff',
     });
   }
   renderImages(images);
