@@ -23,7 +23,7 @@ buttonResults.addEventListener('click', toButton);
 
 async function toForm(event) {
   event.preventDefault();
-  buttonResults.classList.add('hide')
+  buttonResults.classList.add('hide');
   gallery.innerHTML = '';
   page = 1;
   userSearch = form.search.value.trim();
@@ -100,6 +100,7 @@ async function toButton() {
                     height='200'
                     />
               </a>
+              <p class='gallery-tags'>Tags: ${tags}</p>
               <ul class='gallery-statistic'>
                   <li><p class='statistic'>💗 Likes<span>${likes}</span></p></li>
                   <li><p class='statistic'>👁️ Views<span>${views}</span></p></li>
@@ -128,7 +129,7 @@ async function toButton() {
     const domRest = card.getBoundingClientRect().height;
     window.scrollBy({
       top: domRest * 2,
-      behavior: 'smoth',
+      behavior: 'smooth',
     });
   }
 }
