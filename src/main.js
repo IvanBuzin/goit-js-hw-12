@@ -22,6 +22,7 @@ let userSearch = '';
 form.addEventListener('submit', handleSubmit);
 buttonLoadMore.addEventListener('click', handleLoadMore);
 
+const images = await fetchImages();
 async function handleSubmit(event) {
   event.preventDefault();
    page = 1;
