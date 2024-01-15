@@ -67,7 +67,8 @@ input[name='search']:focus {
   color: #2e2f42;
 }
 
-button[type='submit'] {
+button[type='submit'],
+.btn-load-more {
   width: 91px;
 
   font-family: inherit;
@@ -213,4 +214,12 @@ span {
 
 .hi {
   text-shadow: none;
+}
+
+.btn-load-more {
+  margin-bottom: 32px;
+}
+
+.btn-load-more:hover {
+  background-color: #9494dc;
 }
