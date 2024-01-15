@@ -1,9 +1,10 @@
+'use strict';
+
 import axios from 'axios';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
-
 
 const form = document.querySelector('.form');
 const gallery = document.querySelector('.gallery');
@@ -22,13 +23,11 @@ let userSearch = '';
 form.addEventListener('submit', handleSubmit);
 buttonLoadMore.addEventListener('click', handleLoadMore);
 
-const images = await fetchImages();
 async function handleSubmit(event) {
   event.preventDefault();
-   page = 1;
+  page = 1;
   buttonLoadMore.classList.add('hide');
   gallery.innerHTML = '';
- 
   userSearch = form.search.value.trim();
 
   const images = await fetchImages();
@@ -36,16 +35,18 @@ async function handleSubmit(event) {
   if (images.hits.length === 0) {
     iziToast.error({
       position: 'topRight',
-      message: 'Sorry, there are no images matching your search query. Please try again!',
-      backgroundColor: '#fff',
+      message:
+        'Sorry, there are no images matching your search query. Please try again!',
+      backgroundColor: '#987fbb',
     });
   } else if (images.hits.length < per_page) {
     buttonLoadMore.classList.add('hide');
 
     iziToast.error({
       position: 'topRight',
-      message: 'We`re sorry, but you ve reached the end of search results.',
-      backgroundColor: '#red'
+      message:
+        'We&#8217;re sorry, but you&#8217;ve reached the end of search results.',
+      backgroundColor: '#987fbb',
     });
   } else {
     buttonLoadMore.classList.remove('hide');
@@ -53,7 +54,7 @@ async function handleSubmit(event) {
   form.reset();
   renderImages(images);
 }
-  
+
 async function handleLoadMore() {
   page += 1;
   buttonLoadMore.classList.add('hide');
@@ -63,10 +64,12 @@ async function handleLoadMore() {
 
   if (page >= Math.ceil(images.totalHits / per_page)) {
     buttonLoadMore.classList.add('hide');
+
     iziToast.error({
       position: 'topRight',
-      message: "We're sorry, but you've reached the end of search results.",
-      backgroundColor: '#fff',
+      message:
+        'We&#8217;re sorry, but you&#8217;ve reached the end of search results.',
+      backgroundColor: '#987fbb',
     });
   } else {
     buttonLoadMore.classList.remove('hide');
@@ -74,41 +77,42 @@ async function handleLoadMore() {
 
   renderImages(images);
   moveCard();
+}
 
-  async function fetchImages() {
-    loader.classList.remove('hide');
+async function fetchImages() {
+  loader.classList.remove('hide');
 
-    try {
-      const images = await axios.get('https://pixabay.com/api/', {
-        params: {
-          key: '41619692-6da96b2a0003032b895baebe3',
-          q: userSearch,
-          image_type: 'photo',
-          orientation: 'horizontal',
-          safesearch: true,
-          per_page: per_page,
-          page: page,
-        },
-      });
+  try {
+    const images = await axios.get('https://pixabay.com/api/', {
+      params: {
+        key: '41563330-08ed4e1341b4edecabdae7272',
+        q: userSearch,
+        image_type: 'photo',
+        orientation: 'horizontal',
+        safesearch: true,
+        per_page: per_page,
+        page: page,
+      },
+    });
 
-      return images.data;
-    } catch (error) {
-      console.log(error.message);
-      iziToast.error({
-        position: 'topRight',
-        message: 'Sorry, servise unavailable',
-        backgroundColor: '#fff',
-      });
-    } finally {
-      loader.classList.add('hide');
-    }
+    return images.data;
+  } catch (error) {
+    console.log(error.message);
+    iziToast.error({
+      position: 'topRight',
+      message: 'Sorry, service unavailable.',
+      backgroundColor: '#fff',
+    });
+  } finally {
+    loader.classList.add('hide');
   }
+}
 
-  function renderImages(images) {
-    const markup = images.hits.reduce((
-      html, {
-        webformatURL, largeImageURL, tags, likes, views, comments, downloads
-      }
+function renderImages(images) {
+  const markup = images.hits.reduce(
+    (
+      html,
+      { webformatURL, largeImageURL, tags, likes, views, comments, downloads }
     ) => {
       return (
         html +
@@ -132,21 +136,18 @@ async function handleLoadMore() {
             </li>`
       );
     },
-      ''
-    );
+    ''
+  );
 
-    gallery.insertAdjacentHTML('beforeend', markup);
-    modal.refresh();
-  }
+  gallery.insertAdjacentHTML('beforeend', markup);
+  modal.refresh();
+}
 
-    
-  }
-
-  function moveCard() {
-    const card = document.querySelector('.gallery-item');
-    const domRest = card.getBoundingClientRect().height;
-    window.scrollBy({
-      top: domRect * 2,
-      behavior: 'smooth',
-    });
-  }
+function moveCard() {
+  const card = document.querySelector('.gallery-item');
+  const domRect = card.getBoundingClientRect().height;
+  window.scrollBy({
+    top: domRect * 2,
+    behavior: 'smooth',
+  });
+}
