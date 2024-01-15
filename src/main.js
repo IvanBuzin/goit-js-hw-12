@@ -7,7 +7,7 @@ import axios from 'axios';
 const form = document.querySelector('.form');
 const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
-const buttonLoadMore = document.querySelector('.btn');
+const buttonLoadMore = document.querySelector('.btn-load-more');
 
 const modal = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
@@ -144,7 +144,7 @@ async function handleLoadMore() {
     const card = document.querySelector('.gallery-item');
     const domRest = card.getBoundingClientRect().height;
     window.scrollBy({
-      top: domRest * 2,
+      top: domRect * 2,
       behavior: 'smooth',
     });
   }
