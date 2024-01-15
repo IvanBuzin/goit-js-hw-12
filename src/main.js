@@ -7,7 +7,7 @@ import axios from 'axios';
 const form = document.querySelector('.form');
 const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
-const buttonResults = document.querySelector('.more-results');
+const buttonLoadMore = document.querySelector('.btn');
 
 const modal = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
@@ -18,14 +18,15 @@ const per_page = 40;
 let page = 1;
 let userSearch = '';
 
-form.addEventListener('submit', toForm);
-buttonResults.addEventListener('click', toButton);
+form.addEventListener('submit', handleSubmit);
+buttonLoadMore.addEventListener('click', handleLoadMore);
 
-async function toForm(event) {
+async function handleSubmit(event) {
   event.preventDefault();
-  buttonResults.classList.add('hide');
+   page = 1;
+  buttonLoadMore.classList.add('hide');
   gallery.innerHTML = '';
-  page = 1;
+ 
   userSearch = form.search.value.trim();
 
   const images = await fetchImages();
@@ -36,30 +37,44 @@ async function toForm(event) {
       message: 'Sorry, there are no images matching your search query. Please try again!',
       backgroundColor: '#fff',
     });
+  } else if (images.hits.length < per_page) {
+    buttonLoadMore.classList.add('hide');
+
+    iziToast.error({
+      position: 'topRight',
+      message: 'We're sorry, but you've reached the end of search results.',
+      backgroundColor: '#red'
+    });
+  } else {
+    buttonLoadMore.classList.remove('hide');
   }
+  form.reset();
   renderImages(images);
 }
   
-async function toButton() {
-  buttonResults.classList.add('hide');
+async function handleLoadMore() {
+  page += 1;
+  buttonLoadMore.classList.add('hide');
   const images = await fetchImages();
   loader.classList.add('hide');
-  buttonResults.classList.remove('hide');
+  buttonLoadMore.classList.remove('hide');
 
   if (page >= Math.ceil(images.totalHits / per_page)) {
-    buttonResults.classList.add('hide');
+    buttonLoadMore.classList.add('hide');
     iziToast.error({
       position: 'topRight',
       message: "We're sorry, but you've reached the end of search results.",
       backgroundColor: '#fff',
     });
+  } else {
+    buttonLoadMore.classList.remove('hide');
   }
+
   renderImages(images);
   moveCard();
 
   async function fetchImages() {
     loader.classList.remove('hide');
-    page += 1;
 
     try {
       const images = await axios.get('https://pixabay.com/api/', {
@@ -73,16 +88,21 @@ async function toButton() {
           page: page,
         },
       });
+
       return images.data;
     } catch (error) {
       console.log(error.message);
+      iziToast.error({
+        position: 'topRight',
+        message: 'Sorry, servise unavailable',
+        backgroundColor: '#fff',
+      });
     } finally {
       loader.classList.add('hide');
-      form.reset();
     }
   }
 
-  async function renderImages(images) {
+  function renderImages(images) {
     const markup = images.hits.reduce((
       html, {
         webformatURL, largeImageURL, tags, likes, views, comments, downloads
@@ -115,13 +135,9 @@ async function toButton() {
 
     gallery.insertAdjacentHTML('beforeend', markup);
     modal.refresh();
+  }
 
-    if (images.hits.length === 0 || page >= Math.ceil(images.totalHits / per_page)) {
-      buttonResults.classList.add('hide');
-    }
-    else {
-      buttonResults.classList.remove('hide');
-    }
+    
   }
 
   function moveCard() {
@@ -132,4 +148,3 @@ async function toButton() {
       behavior: 'smooth',
     });
   }
-}
