@@ -173,6 +173,13 @@ button[type='submit']:focus {
   margin: 0 auto;
 }
 
+.gallery-tags {
+  color: #000000;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+}
+
 .gallery-item {
   padding: 8px;
   border: 1px solid #d9d9ff;
@@ -228,11 +235,11 @@ span {
   }
 }
 
-.posts {
+/*.posts {
   margin: 0;
   list-style: none;
   margin-bottom: 16px;
-}
+}*/
 
 .posts li:not(:last-child) {
   margin-bottom: 16px;
@@ -253,6 +260,6 @@ span {
   margin: 0;
 }
 
-.hi {
+/*.hi {
   text-shadow: none;
 }
