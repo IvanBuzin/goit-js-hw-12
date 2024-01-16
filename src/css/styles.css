@@ -16,7 +16,7 @@
 
   color: #242424;
   background-color: rgba(255, 255, 255, 0.87);
-  background-image: url();
+  background-image: url(../img/vite-logo.png);
   background-repeat: no-repeat;
   background-position: center;
   background-attachment: fixed;
@@ -171,13 +171,6 @@ button[type='submit']:focus {
 
   padding: 24px 0;
   margin: 0 auto;
-}
-
-.gallery-title {
-  margin-bottom: 32px;
-  font-size: 24px;
-  font-weight: 400;
-  color: #690303;
 }
 
 .gallery-item {
