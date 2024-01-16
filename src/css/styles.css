@@ -239,6 +239,7 @@ span {
   margin: 0px 673px 32px 674px;
 }
 
-.btn-load-more:hover {
-  background-color: #9494dc;
+.loader.hide,
+.btn-load-more.hide {
+  display: none;
 }
