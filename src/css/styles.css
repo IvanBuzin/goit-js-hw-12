@@ -16,6 +16,11 @@
 
   color: #242424;
   background-color: rgba(255, 255, 255, 0.87);
+  background-image: url();
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  background-size: cover;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -34,7 +39,6 @@
   flex-direction: row;
 }
 
-/*----правки----*/
 input[name='search'],
 input[name='search']:hover {
   color: #808080;
@@ -112,7 +116,8 @@ button[type='submit']:focus {
   background: #6c8cff;
 }
 
-.loader.hide {
+.loader.hide,
+.btn-load-more.hide {
   display: none;
 }
 
@@ -168,6 +173,13 @@ button[type='submit']:focus {
   margin: 0 auto;
 }
 
+.gallery-title {
+  margin-bottom: 32px;
+  font-size: 24px;
+  font-weight: 400;
+  color: #690303;
+}
+
 .gallery-item {
   padding: 8px;
   border: 1px solid #d9d9ff;
@@ -207,6 +219,23 @@ span {
 }
 
 /*-----nev------*/
+@media screen and (max-width: 400px) {
+  input[name='search'] {
+    margin-bottom: 8px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 0 20px;
+  }
+  .form {
+    display: block;
+    padding: 0 20px;
+  }
+}
+
+/*
 .posts {
   margin: 0;
   list-style: none;
@@ -234,9 +263,4 @@ span {
 
 .hi {
   text-shadow: none;
-}
-
-.loader.hide,
-.btn-load-more.hide {
-  display: none;
 }
