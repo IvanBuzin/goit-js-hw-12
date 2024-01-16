@@ -102,7 +102,8 @@ button[type='submit'] {
   font-weight: 500;
   line-height: 24px; /* 150% */
   letter-spacing: 0.64px;
-  width: 93px;
+  width: 125px;
+  height: 40px;
 }
 
 button[type='submit']:hover,
@@ -235,7 +236,7 @@ span {
 }
 
 .btn-load-more {
-  margin-bottom: 32px;
+  margin: 0px 673px 32px 674px;
 }
 
 .btn-load-more:hover {
