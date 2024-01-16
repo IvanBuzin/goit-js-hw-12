@@ -235,11 +235,11 @@ span {
   }
 }
 
-/*.posts {
+.posts {
   margin: 0;
   list-style: none;
   margin-bottom: 16px;
-}*/
+}
 
 .posts li:not(:last-child) {
   margin-bottom: 16px;
